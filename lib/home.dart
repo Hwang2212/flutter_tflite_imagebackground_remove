@@ -4,6 +4,7 @@ import 'dart:ui';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_application_1/deep_lab.dart';
+import 'package:flutter_application_1/python/python.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:widget_mask/widget_mask.dart';
 
@@ -22,11 +23,14 @@ class _HomeState extends State<Home> {
   Uint8List? finalPic;
   double? _imageWidth;
   double? _imageHeight;
+  late Python python;
 
   @override
   void initState() {
     super.initState();
     DeepLab.loadModel();
+    python = Python();
+    python.initialize("python", "./main.py", false);
   }
 
   @override
@@ -40,8 +44,9 @@ class _HomeState extends State<Home> {
               buildProfilePicture(),
               buildCameraButton(),
               buildGalleryButton(),
+              buildPythonResults()
               // buildFinalPic(),
-              buildStackImage()
+              // buildStackImage()
             ],
           ),
         ),
@@ -61,6 +66,18 @@ class _HomeState extends State<Home> {
     return const Icon(
       Icons.camera,
       size: 200,
+    );
+  }
+
+  buildPythonResults() {
+    return Column(
+      children: [
+        ElevatedButton(
+            onPressed: () {
+              python.removeBg(_profilePic!.path);
+            },
+            child: const Text("Remove Background"))
+      ],
     );
   }
 
