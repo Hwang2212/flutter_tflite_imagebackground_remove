@@ -29,6 +29,7 @@ import 'package:flutter_native_image/flutter_native_image.dart';
 import 'package:learning_input_image/learning_input_image.dart';
 import 'package:learning_selfie_segmentation/learning_selfie_segmentation.dart';
 import 'package:provider/provider.dart';
+import 'package:widget_mask/widget_mask.dart';
 
 void main() {
   runApp(const MyApp());
@@ -96,6 +97,7 @@ class _SelfieSegmentationPageState extends State<SelfieSegmentationPage> {
           targetWidth: aspectRatio > 1.0 ? 360 : (360 * aspectRatio).round(),
           targetHeight: aspectRatio > 1.0 ? (360 / aspectRatio).round() : 360,
         );
+        state.file = scaledImage;
 
         image = InputImage.fromFile(
           scaledImage,
@@ -115,6 +117,38 @@ class _SelfieSegmentationPageState extends State<SelfieSegmentationPage> {
 
   @override
   Widget build(BuildContext context) {
+    return Scaffold(
+      body: Consumer<SelfieSegmentationState>(
+        builder: (_, state, __) {
+          if (state.isEmpty) {
+            return Container();
+          }
+
+          Size originalSize = state.size!;
+          Size size =
+              state.isFromLive ? MediaQuery.of(context).size : originalSize;
+          return WidgetMask(
+              // childSaveLayer: true,
+              blendMode: BlendMode.dstATop,
+              mask: SegmentationOverlay(
+                size: size,
+                originalSize: originalSize,
+                rotation: state.rotation,
+                mask: state.data!,
+              ),
+              child: Image.file(
+                state.file!,
+                // color: Colors.pink,
+              ));
+          return SegmentationOverlay(
+            size: size,
+            originalSize: originalSize,
+            rotation: state.rotation,
+            mask: state.data!,
+          );
+        },
+      ),
+    );
     return InputCameraView(
       mode: InputCameraMode.gallery,
       cameraDefault: InputCameraType.rear,
@@ -130,7 +164,19 @@ class _SelfieSegmentationPageState extends State<SelfieSegmentationPage> {
           Size originalSize = state.size!;
           Size size =
               state.isFromLive ? MediaQuery.of(context).size : originalSize;
-
+          return WidgetMask(
+              childSaveLayer: true,
+              blendMode: BlendMode.srcOut,
+              mask: Image.file(
+                state.file!,
+                color: Colors.pink,
+              ),
+              child: SegmentationOverlay(
+                size: size,
+                originalSize: originalSize,
+                rotation: state.rotation,
+                mask: state.data!,
+              ));
           return SegmentationOverlay(
             size: size,
             originalSize: originalSize,
@@ -146,6 +192,7 @@ class _SelfieSegmentationPageState extends State<SelfieSegmentationPage> {
 class SelfieSegmentationState extends ChangeNotifier {
   InputImage? _image;
   SegmentationMask? _data;
+  File? _file;
   bool _isProcessing = false;
   bool _isFromLive = false;
 
@@ -153,6 +200,7 @@ class SelfieSegmentationState extends ChangeNotifier {
   SegmentationMask? get data => _data;
 
   String? get type => _image?.type;
+  File? get file => _file;
   InputImageRotation? get rotation => _image?.metadata?.rotation;
   Size? get size => _image?.metadata?.size;
 
@@ -187,6 +235,11 @@ class SelfieSegmentationState extends ChangeNotifier {
 
   set data(SegmentationMask? data) {
     _data = data;
+    notifyListeners();
+  }
+
+  set file(File? file) {
+    _file = file;
     notifyListeners();
   }
 }
