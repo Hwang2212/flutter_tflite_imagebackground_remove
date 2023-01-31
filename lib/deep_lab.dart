@@ -13,8 +13,8 @@ class DeepLab {
     try {
       String? res;
       res = await Tflite.loadModel(
-          // model: 'assets/tflite/deeplabv3_257_mv_gpu.tflite',
-          model: 'assets/tflite/deep.tflite',
+          model: 'assets/tflite/deeplabv3_257_mv_gpu.tflite',
+          // model: 'assets/tflite/object_labeler.tflite',
           labels: 'assets/tflite/deeplabv3_257_mv_gpu.txt');
       log("YAY");
     } catch (e) {
