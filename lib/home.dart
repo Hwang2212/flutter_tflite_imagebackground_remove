@@ -23,14 +23,14 @@ class _HomeState extends State<Home> {
   Uint8List? finalPic;
   double? _imageWidth;
   double? _imageHeight;
-  late Python python;
+  // late Python python;
 
   @override
   void initState() {
     super.initState();
     DeepLab.loadModel();
-    python = Python();
-    python.initialize("python", "./main.py", false);
+    // python = Python();
+    // python.initialize("python", "./main.py", false);
   }
 
   @override
@@ -44,9 +44,9 @@ class _HomeState extends State<Home> {
               buildProfilePicture(),
               buildCameraButton(),
               buildGalleryButton(),
-              buildPythonResults()
-              // buildFinalPic(),
-              // buildStackImage()
+              // buildPythonResults(),
+              buildFinalPic(),
+              buildStackImage()
             ],
           ),
         ),
@@ -69,17 +69,17 @@ class _HomeState extends State<Home> {
     );
   }
 
-  buildPythonResults() {
-    return Column(
-      children: [
-        ElevatedButton(
-            onPressed: () {
-              python.removeBg(_profilePic!.path);
-            },
-            child: const Text("Remove Background"))
-      ],
-    );
-  }
+  // buildPythonResults() {
+  //   return Column(
+  //     children: [
+  //       ElevatedButton(
+  //           onPressed: () {
+  //             python.removeBg(_profilePic!.path);
+  //           },
+  //           child: const Text("Remove Background"))
+  //     ],
+  //   );
+  // }
 
   buildFinalPic() {
     if (finalPic != null) {
