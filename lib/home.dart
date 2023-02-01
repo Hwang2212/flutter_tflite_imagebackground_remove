@@ -40,7 +40,7 @@ class _HomeState extends State<Home> {
               buildProfilePicture(),
               buildCameraButton(),
               buildGalleryButton(),
-              // buildFinalPic(),
+              buildFinalPic(),
               buildStackImage()
             ],
           ),
