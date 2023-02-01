@@ -11,10 +11,11 @@ class DeepLab {
   static void loadModel() async {
     Tflite.close();
     try {
+      // install "rembg==2.0.28"
       String? res;
       res = await Tflite.loadModel(
-          // model: 'assets/tflite/deeplabv3_257_mv_gpu.tflite',
-          model: 'assets/tflite/object_labeler.tflite',
+          model: 'assets/tflite/deeplabv3_257_mv_gpu.tflite',
+          // model: 'assets/tflite/object_labeler.tflite',
           labels: 'assets/tflite/deeplabv3_257_mv_gpu.txt');
       log("YAY");
     } catch (e) {

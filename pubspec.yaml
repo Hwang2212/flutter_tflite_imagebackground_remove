@@ -42,6 +42,7 @@ dependencies:
   path_provider: ^2.0.11
   widget_mask: ^1.0.0+0
   flython: ^0.2.0
+  chaquopy: ^0.0.19
   
 dev_dependencies:
   flutter_test:
