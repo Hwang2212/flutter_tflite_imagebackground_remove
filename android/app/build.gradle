@@ -72,5 +72,7 @@ flutter {
 }
 
 dependencies {
+    compile 'org.tensorflow:tensorflow-lite:+'
+    compile 'org.tensorflow:tensorflow-lite-gpu:+'
     implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
 }
