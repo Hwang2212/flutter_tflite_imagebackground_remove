@@ -1,6 +1,7 @@
 import 'package:flutter_test/flutter_test.dart';
 
-import 'package:remove_background/remove_background.dart';
+
+import '../lib/remove_background.dart';
 
 void main() {
   test('adds one to input values', () {
